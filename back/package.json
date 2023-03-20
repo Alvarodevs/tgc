@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node build/index.js",
     "tsc": "tsc",
     "dev": "ts-node-dev src/index.ts & node --watch build/index.js",
     "lint": "ts-standard",

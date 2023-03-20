@@ -6,14 +6,22 @@ import { Request, Response } from 'express'
 
 const data = fs.readFileSync('./src/db/products.json')
 const parsedData: IProduct[] = JSON.parse(data as unknown as string)
-console.log(parsedData)
+// console.log(parsedData)
 
-export const getProducts = (_req: Request, res: Response): Response<IProduct[]> => {
+export const getProducts = (
+  _req: Request,
+  res: Response
+): Response<IProduct[]> => {
   return res.status(200).json({ products: parsedData })
 }
 
-export const getProductById = (req: Request, res: Response): Response<IProduct | string> => {
-  const productById = parsedData.filter((product: IProduct) => product.id === +req.params.id)
+export const getProductById = (
+  req: Request,
+  res: Response
+): Response<IProduct | string> => {
+  const productById = parsedData.filter(
+    (product: IProduct) => product.id === +req.params.id
+  )
   try {
     if (productById !== null) {
       return res.status(200).json({ product: productById })
@@ -33,33 +41,43 @@ export const postProduct = (req: Request, res: Response): any => {
   try {
     const validatedProduct = toDataBase(newProduct)
     parsedData.push(validatedProduct)
-    fs.writeFile('./src/db/products.json', JSON.stringify(parsedData), err => {
-      if (err != null) {
-        throw err
+    fs.writeFile(
+      './src/db/products.json',
+      JSON.stringify(parsedData),
+      (err) => {
+        if (err != null) {
+          throw err
+        }
       }
-    })
+    )
     return res.status(201).json(validatedProduct)
   } catch (error) {
     return res.status(500).json(`Product not added: ${error}`)
   }
 }
 
-export const putProduct = (req: Request, res: Response): any => {
-  let productById = parsedData.filter((product: IProduct) => product.id === req.body.id)
+export const putProduct = (req: Request, res: Response): Response => {
+  const productIndex = parsedData.findIndex((product: IProduct) => product.id === +req.params.id)
   try {
-    productById = req.body
-    const validatedProduct = toDataBase(productById)
-    return res.status(201).json(validatedProduct)
+    const updatedProduct = { ...parsedData[productIndex], ...req.body }
+    parsedData[productIndex] = updatedProduct
+    fs.writeFile('./src/db/products.json', JSON.stringify(parsedData), (err) => {
+      if (err != null) {
+        throw err
+      }
+    })
+    return res.status(201).json(updatedProduct)
   } catch (error) {
     return res.status(500).json(`Product not added: ${error}`)
   }
 }
 
 export const deleteProduct = (req: Request, res: Response): Response => {
-  const newData = parsedData.filter((product: IProduct) => product.id !== +req.params.id)
-  console.log(newData)
+  const newData = parsedData.filter(
+    (product: IProduct) => product.id !== +req.params.id
+  )
   try {
-    fs.writeFile('./src/db/products.json', JSON.stringify(newData), err => {
+    fs.writeFile('./src/db/products.json', JSON.stringify(newData), (err) => {
       if (err != null) {
         throw err
       }
