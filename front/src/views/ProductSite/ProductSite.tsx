@@ -1,6 +1,6 @@
 import Form from '../../components/Form'
 
-type Props = {}
+interface Props {}
 
 const Home = (props: Props) => {
   return (

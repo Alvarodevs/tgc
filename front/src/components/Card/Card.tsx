@@ -1,7 +1,7 @@
 import { CardContainer } from './CardStyle'
 import { Link } from 'react-router-dom'
 
-type Props = {}
+interface Props {}
 
 const Card = (props: Props) => {
   return (

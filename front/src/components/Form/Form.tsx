@@ -2,7 +2,7 @@ import { FormContainer } from './FormStyle'
 import { Link } from 'react-router-dom'
 
 
-type Props = {}
+interface Props {}
 
 const Form = (props: Props) => {
   return (

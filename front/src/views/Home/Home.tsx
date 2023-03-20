@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Card from '../../components/Card'
 
-type Props = {}
+interface Props {}
 
 const Home = (props: Props) => {
   return (
