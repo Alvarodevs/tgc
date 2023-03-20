@@ -1,5 +1,5 @@
 export interface IProduct {
-  id?: number | undefined
+  id: number
   title: string
   description: string
   price: number
@@ -9,5 +9,5 @@ export interface IProduct {
   brand: string
   category: string
   thumbnail: string
-  images?: string | string[]
+  images: string[]
 }

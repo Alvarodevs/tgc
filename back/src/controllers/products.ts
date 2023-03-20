@@ -1,25 +1,36 @@
 import { IProduct } from './../types.d'
-// import { IProduct } from './../types.d'
+import toDataBase from '../utils/validationData'
 import { Request, Response } from 'express'
 import products from '../db/products.json'
 
-export const getProducts = (_req: Request, res: Response): object => {
+export const getProducts = (_req: Request, res: Response): Response<IProduct[]> => {
   return res.status(200).json({ products })
 }
 
-export const getProductById = (req: Request, res: Response): object => {
-  const productById = products.filter((product: IProduct) => product.id === parseInt(req.params.id))
-  return res.status(200).json({ product: productById })
+export const getProductById = (req: Request, res: Response): Response<IProduct | string> => {
+  const productById = products.filter((product: IProduct) => product.id === +req.params.id)
+  try {
+    if (productById !== null) {
+      return res.status(200).json({ product: productById })
+    }
+    return res.status(404).json('Product not found')
+  } catch (error) {
+    return res.status(404).json('Something went wrong')
+  }
 }
 
-export const postProduct = (req: Request, res: Response): Response<IProduct> => {
-  console.log(products.length)
-  // const { title, description, price, discountPercentage, rating, stock, brand, category, thumbnail, images } = req.body
+export const postProduct = (req: Request, res: Response): any => {
   const newId = products[products.length - 1].id + 1
   const newProduct = {
     id: newId,
     ...req.body
   }
-  products.push(newProduct)
-  return res.status(201).json(newProduct)
+  try {
+    const validatedProduct = toDataBase(newProduct)
+    console.log(validatedProduct)
+    products.push(validatedProduct)
+    return res.status(201).json(validatedProduct)
+  } catch (error) {
+    return res.status(500).json('Product not added')
+  }
 }
