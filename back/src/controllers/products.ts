@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { IProduct } from './../types.d'
 import toDataBase from '../utils/validationData'
 import { Request, Response } from 'express'
@@ -31,6 +32,17 @@ export const postProduct = (req: Request, res: Response): any => {
     products.push(validatedProduct)
     return res.status(201).json(validatedProduct)
   } catch (error) {
-    return res.status(500).json('Product not added')
+    return res.status(500).json(`Product not added: ${error}`)
+  }
+}
+
+export const putProduct = (req: Request, res: Response): any => {
+  let productById = products.filter((product: IProduct) => product.id === req.body.id)
+  try {
+    productById = req.body
+    const validatedProduct = toDataBase(productById)
+    return res.status(201).json(validatedProduct)
+  } catch (error) {
+    return res.status(500).json(`Product not added: ${error}`)
   }
 }

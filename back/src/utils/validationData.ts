@@ -8,14 +8,14 @@ const idValid = (id: any): number => {
 }
 
 const titleValid = (title: any): string => {
-  if (typeof title !== 'string') {
+  if (typeof title !== 'string' || title === '') {
     throw new Error('Title is not valid')
   }
   return title
 }
 
 const descriptionValid = (description: any): string => {
-  if (typeof description !== 'string') {
+  if (typeof description !== 'string' || description === '') {
     throw new Error('Description is not valid')
   }
   return description
@@ -50,33 +50,25 @@ const stockValid = (stock: any): number => {
 }
 
 const brandValid = (brand: any): string => {
-  if (typeof brand !== 'string') {
+  if (typeof brand !== 'string' || brand === '') {
     throw new Error('Brand is not valid')
   }
   return brand
 }
 
 const categoryValid = (category: any): string => {
-  if (typeof category !== 'string') {
+  if (typeof category !== 'string' || category === '') {
     throw new Error('Category is not valid')
   }
   return category
 }
 
 const thumbnailValid = (thumb: any): string => {
-  if (typeof thumb !== 'string') {
+  if (typeof thumb !== 'string' || thumb === '') {
     throw new Error('Thumbnail is not valid')
   }
   return thumb
 }
-
-// const imagesValid = (images: any): string[] | undefined => {
-//   if (Array.isArray(images) || typeof images === 'undefined') {
-//     return undefined
-//     // throw new Error('Thumbnail is not valid')
-//   }
-//   return images
-// }
 
 const toDataBase = (product: any): IProduct => {
   const newProduct = {
