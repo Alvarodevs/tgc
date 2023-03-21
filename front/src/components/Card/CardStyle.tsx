@@ -32,7 +32,7 @@ export const CardItem = styled.div`
     top: 0.5rem;
     right: 0.5rem;
     font-size: 2.5rem;
-    color: var(--lightBlue);
+    color: var(--yellow);
   }
 `
 

@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
       --lightBlue: #a1e5fa;
       --white: #ffffff;
       --black: #0c0c0c;
+      --yellow: #f7f32f;
       // Font sizes
       --font-size-s: 0.8rem;
       --font-size-m: 1rem;
