@@ -1,13 +1,11 @@
-import { Link } from 'react-router-dom'
 import Card from '../../components/Card'
+import { Container } from './HomeStyle'
 
-interface Props {}
-
-const Home = (props: Props) => {
+const Home = (): JSX.Element => {
   return (
-    <div>Home
+    <Container>
       <Card/>
-    </div>
+    </Container>
   )
 }
 

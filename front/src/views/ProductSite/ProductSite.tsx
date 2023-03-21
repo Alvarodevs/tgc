@@ -1,8 +1,7 @@
 import Form from '../../components/Form'
 
-interface Props {}
 
-const Home = (props: Props) => {
+const Home = (): JSX.Element => {
   return (
     <Form></Form>
   )
