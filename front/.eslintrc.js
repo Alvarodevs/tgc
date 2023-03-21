@@ -21,7 +21,8 @@ module.exports = {
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
-    "@typescript-eslint/consistent-type-exports": "off"
+    "@typescript-eslint/consistent-type-exports": "off",
+    "@typescript-eslint/no-floating-promises": "warn"
   },
   settings: {
     react: {

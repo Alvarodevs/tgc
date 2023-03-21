@@ -39,7 +39,7 @@ export const CardItem = styled.div`
 export const Title = styled.h2`
   font-family: var(--main-font);
   text-align: center;
-  margin: 1rem 0;
+  margin: 2.5rem 0 1rem 0px;
 `
 
 export const Image = styled.img`

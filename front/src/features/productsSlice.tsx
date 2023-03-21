@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "../app/store"
-import type IProduct from "../interfaces/IProduct"
+import type {IProduct, IActionThunk} from "../interfaces" 
+import { fetchProducts } from "../services/api"
 
 interface ProductsState {
   items: IProduct[] | []
@@ -8,10 +9,11 @@ interface ProductsState {
   status: string
 }
 
-// export const getBookings = createAsyncThunk("fetch/bookings", async () => {
-//    const response = await fetchApi(`bookings`, "GET");
-//    return response;
-// });
+export const getProducts = createAsyncThunk("get/products", async () => {
+  const response = await fetchProducts()
+  // console.log(response)
+  return response
+})
 
 // export const getBooking = createAsyncThunk(
 //    "booking/fetchBooking",
@@ -59,35 +61,36 @@ const initialState: ProductsState = {
   status: "idle",
 }
 
-// export const bookingsSlice = createSlice({
-//    name: "bookings",
-//    initialState,
-//    reducers: {
-//       sortNewest: (state: BookingsState) => {
-//          state.items.sort((a, b) => {
-//             return a.order_date > b.order_date? -1 : 1;
-//          })
-//       },
+export const productsSlice = createSlice({
+  name: "products",
+  initialState,
+  reducers: {
+    // sortNewest: (state: ProductsState) => {
+    //    state.items.sort((a, b) => {
+    //       return a.order_date > b.order_date? -1 : 1;
+    //    })
+    // },
+  },
 
-//    },
-
-//    extraReducers: (builder) => {
-//       builder
-//          //GET all bookings
-//          .addCase(getBookings.pending, (state: BookingsState) => {
-//             state.status = "loading";
-//          })
-//          .addCase(
-//             getBookings.fulfilled,
-//             (state: BookingsState, action: IActionThunk) => {
-//                state.items = action.payload;
-//                state.status = "ok";
-//             }
-//          )
-//          .addCase(getBookings.rejected, (state: BookingsState) => {
-//             state.status = "ko";
-//          })
-
+  extraReducers: (builder) => {
+    builder
+      // GET all products
+      .addCase(getProducts.pending, (state: ProductsState) => {
+        state.status = "loading"
+      })
+      .addCase(
+        getProducts.fulfilled,
+        (state: ProductsState, action: IActionThunk) => {
+          state.items = action.payload.products
+          state.status = "ok"
+        }
+      )
+      .addCase(getProducts.rejected, (state: ProductsState) => {
+        console.log('error in thunk')
+        state.status = "ko"
+      })
+  },
+})
 //          //GET single booking
 //          .addCase(getBooking.pending, (state: BookingsState) => {
 //             state.status = "loading";
@@ -129,8 +132,8 @@ const initialState: ProductsState = {
 
 // export const { sortNewest } = bookingsSlice.actions;
 
-// export const selectBookings = (state: RootState) => state.bookings.items;
-// export const selectBooking = (state: RootState) => state.bookings.single;
-// export const selectStatus = (state: RootState) => state.bookings.status;
+export const selectProducts = (state: RootState): IProduct[] => state.products.items;
+export const selectProduct = (state: RootState): IProduct => state.products.single;
+export const selectStatus = (state: RootState): string => state.products.status;
 
-// export default bookingsSlice.reducer;
+export default productsSlice.reducer;
