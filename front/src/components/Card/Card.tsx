@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   CardItem,
   Container,
@@ -29,7 +30,7 @@ const Card = ({
 }: IProduct): JSX.Element => {
   return (
     <Container>
-      <Link to={`/product/1`}>
+      <Link to={`/product/${id}`}>
         <CardItem className='CARDITEM'>
           <Title>{title}</Title>
           <AiFillStar className="rateIcon"></AiFillStar>

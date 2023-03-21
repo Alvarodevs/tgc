@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "../app/store"
-import type {IProduct, IActionThunk} from "../interfaces" 
-import { fetchProducts } from "../services/api"
+import type { IProduct, IActionThunk } from "../interfaces"
+import { fetchProducts, fetchSingleProduct } from "../services/api"
 
 interface ProductsState {
   items: IProduct[] | []
@@ -11,19 +11,16 @@ interface ProductsState {
 
 export const getProducts = createAsyncThunk("get/products", async () => {
   const response = await fetchProducts()
-  // console.log(response)
   return response
 })
 
-// export const getBooking = createAsyncThunk(
-//    "booking/fetchBooking",
-//    async (id) => {
-//       const bookingData = await fetchApi(`bookings/${id}`, "GET");
-//       const roomId = bookingData.room_id;
-//       const roomData = await fetchApi(`rooms/${roomId}`, "GET");
-//       return { response: bookingData, roomImages: roomData.images };
-//    }
-// );
+export const getProduct = createAsyncThunk(
+  "get/product",
+  async (id: number) => {
+    const response = await fetchSingleProduct(id)
+    return response
+  }
+)
 
 // export const addBooking = createAsyncThunk("booking/addBooking",
 // 	async (newBooking) => {
@@ -64,13 +61,7 @@ const initialState: ProductsState = {
 export const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {
-    // sortNewest: (state: ProductsState) => {
-    //    state.items.sort((a, b) => {
-    //       return a.order_date > b.order_date? -1 : 1;
-    //    })
-    // },
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder
@@ -86,28 +77,24 @@ export const productsSlice = createSlice({
         }
       )
       .addCase(getProducts.rejected, (state: ProductsState) => {
-        console.log('error in thunk')
+        console.log("error in thunk")
+        state.status = "ko"
+      })
+      // GET single booking
+      .addCase(getProduct.pending, (state: ProductsState) => {
+        state.status = "loading"
+      })
+      .addCase(
+        getProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
+          state.single = action.payload
+          state.status = "ok"
+        }
+      )
+      .addCase(getProduct.rejected, (state: ProductsState) => {
         state.status = "ko"
       })
   },
 })
-//          //GET single booking
-//          .addCase(getBooking.pending, (state: BookingsState) => {
-//             state.status = "loading";
-//          })
-//          .addCase(
-//             getBooking.fulfilled,
-//             (state: BookingsState, action: IActionThunk) => {
-//                state.single = {
-//                   ...action.payload.response,
-//                   room_images: action.payload.roomImages,
-//                };
-//                state.status = "ok";
-//             }
-//          )
-//          .addCase(getBooking.rejected, (state: BookingsState) => {
-//             state.status = "ko";
-//          });
 
 //       // .addCase(addBooking.fulfilled, (state, action) => {
 //       // 	state.items = [...state.items, action.payload];
@@ -132,8 +119,10 @@ export const productsSlice = createSlice({
 
 // export const { sortNewest } = bookingsSlice.actions;
 
-export const selectProducts = (state: RootState): IProduct[] => state.products.items;
-export const selectProduct = (state: RootState): IProduct => state.products.single;
-export const selectStatus = (state: RootState): string => state.products.status;
+export const selectProducts = (state: RootState): IProduct[] =>
+  state.products.items
+export const selectProduct = (state: RootState): IProduct =>
+  state.products.single
+export const selectStatus = (state: RootState): string => state.products.status
 
-export default productsSlice.reducer;
+export default productsSlice.reducer
