@@ -3,6 +3,7 @@ import {
   Container,
   Button,
   Title,
+  ImgContainer,
   Image,
   Rate,
   Brand,
@@ -29,11 +30,13 @@ const Card = ({
   return (
     <Container>
       <Link to={`/product/1`}>
-        <CardItem>
+        <CardItem className='CARDITEM'>
           <Title>{title}</Title>
           <AiFillStar className="rateIcon"></AiFillStar>
           <Rate>{rating}</Rate>
-          <Image src={thumbnail} />
+          <ImgContainer>
+            <Image src={thumbnail} />
+          </ImgContainer>
           <Brand>
             {brand} <span>presents: </span>
           </Brand>

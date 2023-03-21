@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.article`
-  width: fit-content;
+  // width: fit-content;
   a {
     display: flex;
     justify-content: center;
@@ -12,7 +12,6 @@ export const Container = styled.article`
 
 export const CardItem = styled.div`
   width: 15rem;
-  height: auto;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -24,14 +23,11 @@ export const CardItem = styled.div`
   :hover {
     box-shadow: 15px 10px 50px -30px var(--blue);
   }
-  @media screen and (max-width: 700px) {
-    width: 100%;
-  }
   .rateIcon {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    font-size: 2.5rem;
+    top: 0.2rem;
+    right: 1rem;
+    font-size: 3rem;
     color: var(--yellow);
   }
 `
@@ -39,11 +35,20 @@ export const CardItem = styled.div`
 export const Title = styled.h2`
   font-family: var(--main-font);
   text-align: center;
-  margin: 2.5rem 0 1rem 0px;
+  padding: 0 20px;
+  margin: 18% auto 5% auto;
+  height: 3rem;
+  display: flex;
+  align-items: start;
+`
+export const ImgContainer = styled.div`
+  width: 100%;
 `
 
 export const Image = styled.img`
   object-fit: cover;
+  height: 10rem;
+  width: 100%;
 `
 
 export const Rate = styled.p`
@@ -64,20 +69,37 @@ export const Brand = styled.h6`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0.7rem auto;
-  span{
+  margin: 1rem auto 0 auto;
+  span {
     font-size: 0.7rem;
     font-weight: 300;
+    text-align: center;
   }
-`;
+`
 
 export const Description = styled.p`
   font-family: var(--main-font);
-  padding: 0.3rem 0.8rem;
-  padding: 0.3rem;
-  margin: auto;
+  padding: 0 0.8rem;
+  margin: 1rem auto;
   color: var(--grey);
-`;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 0.2em;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--lightBlue);
+    outline: 0px solid var(--grey);
+  }
+`
 
 export const Price = styled.p`
   display: flex;
@@ -86,7 +108,7 @@ export const Price = styled.p`
   font-weight: 600;
   font-family: var(--secondary-font);
   padding-top: 0.3rem;
-`;
+`
 export const Button = styled.button`
   width: fit-content;
   background-color: var(--grey);
