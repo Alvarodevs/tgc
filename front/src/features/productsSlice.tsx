@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "../app/store"
 import type { IProduct, IActionThunk } from "../interfaces"
-import { fetchProducts, fetchSingleProduct } from "../services/api"
+import { fetchProducts, fetchSingleProduct, postProduct, putProduct } from "../services/api"
 
 interface ProductsState {
   items: IProduct[] | []
-  single: IProduct
+  single: IProduct | any
   status: string
 }
 
@@ -22,11 +22,19 @@ export const getProduct = createAsyncThunk(
   }
 )
 
-// export const addBooking = createAsyncThunk("booking/addBooking",
-// 	async (newBooking) => {
-// 		return await fetchApi(`bookings`, "POST", newBooking);
-// 	}
-// );
+export const addProduct = createAsyncThunk(
+  "post/product",
+  async (body: object) => {
+    return await postProduct(body)
+  }
+)
+
+export const updateProduct = createAsyncThunk(
+  "put/product",
+  async ({id, body}: {id: number, body: object}) => {
+    return await putProduct({id, body})
+  }
+)
 
 // // export const deleteBooking = createAsyncThunk("booking/deleteBooking",
 // // 	async (id) => {
@@ -42,19 +50,7 @@ export const getProduct = createAsyncThunk(
 
 const initialState: ProductsState = {
   items: [],
-  single: {
-    id: 0,
-    title: "",
-    description: "",
-    price: 0,
-    discountPercentage: 0,
-    rating: 0,
-    stock: 0,
-    brand: "",
-    category: "",
-    thumbnail: "",
-    images: [],
-  },
+  single: {},
   status: "idle",
 }
 
@@ -85,7 +81,8 @@ export const productsSlice = createSlice({
         state.status = "loading"
       })
       .addCase(
-        getProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
+        getProduct.fulfilled,
+        (state: ProductsState, action: IActionThunk) => {
           console.log(action.payload)
           state.single = action.payload.product[0]
           state.status = "ok"
@@ -94,14 +91,18 @@ export const productsSlice = createSlice({
       .addCase(getProduct.rejected, (state: ProductsState) => {
         state.status = "ko"
       })
+
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.items = [...state.items, action.payload]
+        state.status = "ok"
+      })
+
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.items = [...state.items, action.payload]
+        state.status = "ok"
+      })
   },
 })
-
-//       // .addCase(addBooking.fulfilled, (state, action) => {
-//       // 	state.items = [...state.items, action.payload];
-//       // 	state.status = 'ok';
-//       // })
-
 //       // .addCase(deleteBooking.fulfilled, (state, action) => {
 //       // 	state.items = state.items.filter(
 //       // 		(booking) => booking.id !== action.payload
@@ -120,8 +121,10 @@ export const productsSlice = createSlice({
 
 // export const { sortNewest } = bookingsSlice.actions;
 
-export const selectProducts = (state: RootState): IProduct[] => state.products.items
-export const selectProduct = (state: RootState): IProduct => state.products.single
+export const selectProducts = (state: RootState): IProduct[] =>
+  state.products.items
+export const selectProduct = (state: RootState): IProduct =>
+  state.products.single
 export const selectStatus = (state: RootState): string => state.products.status
 
 export default productsSlice.reducer
