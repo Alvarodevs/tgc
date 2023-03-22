@@ -11,7 +11,6 @@ interface ProductsState {
 
 export const getProducts = createAsyncThunk("get/products", async () => {
   const response = await fetchProducts()
-  // console.log('products', response)
   return response
 })
 
@@ -87,7 +86,8 @@ export const productsSlice = createSlice({
       })
       .addCase(
         getProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
-          state.single = action.payload
+          console.log(action.payload)
+          state.single = action.payload.product[0]
           state.status = "ok"
         }
       )
@@ -120,10 +120,8 @@ export const productsSlice = createSlice({
 
 // export const { sortNewest } = bookingsSlice.actions;
 
-export const selectProducts = (state: RootState): IProduct[] =>
-  state.products.items
-export const selectProduct = (state: RootState): IProduct =>
-  state.products.single
+export const selectProducts = (state: RootState): IProduct[] => state.products.items
+export const selectProduct = (state: RootState): IProduct => state.products.single
 export const selectStatus = (state: RootState): string => state.products.status
 
 export default productsSlice.reducer

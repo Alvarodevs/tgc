@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getProduct, selectProduct } from "../../features/productsSlice"
 import {
   Container,
   HomeContainer,
@@ -7,15 +9,15 @@ import {
   Label,
   Input,
 } from "./FormStyle"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
 
 interface IForm {
   title: string
-  rating: string
+  rating: number
   thumbnail: string
   description: string
-  price: string
+  price: number
 }
 
 const ratingOptions = ["1", "2", "3", "4", "5"]
@@ -23,11 +25,15 @@ const ratingOptions = ["1", "2", "3", "4", "5"]
 const Form = (): JSX.Element => {
   const [formData, setFormData] = useState<IForm>({
     title: "",
-    rating: "",
-    thumbnail: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+    rating: 0,
+    thumbnail: "",
     description: "",
-    price: "",
+    price: 0,
   })
+  const dispatch = useAppDispatch()
+  const product = useAppSelector(selectProduct)
+  const { id }: any = useParams()
+  console.log(product)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -42,6 +48,19 @@ const Form = (): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
   }
+
+  // eslint-disable-next-line no-void
+  useEffect(() => {
+    void dispatch(getProduct(parseInt(id)))
+    setFormData({
+      ...formData,
+      title: product.title,
+      rating: Math.ceil(product.rating),
+      thumbnail: product.thumbnail,
+      description: product.description,
+      price: product.price,
+    })
+  }, [id])
 
   return (
     <>
@@ -103,7 +122,7 @@ const Form = (): JSX.Element => {
             />
           </div>
           <div>
-            <Label htmlFor="price">Price</Label>
+            <Label htmlFor="price">Price €</Label>
             <Input
               className="price"
               type="number"
