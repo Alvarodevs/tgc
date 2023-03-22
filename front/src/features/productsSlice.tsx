@@ -11,6 +11,7 @@ interface ProductsState {
 
 export const getProducts = createAsyncThunk("get/products", async () => {
   const response = await fetchProducts()
+  // console.log('products', response)
   return response
 })
 
@@ -80,7 +81,7 @@ export const productsSlice = createSlice({
         console.log("error in thunk")
         state.status = "ko"
       })
-      // GET single booking
+      // GET single product
       .addCase(getProduct.pending, (state: ProductsState) => {
         state.status = "loading"
       })
