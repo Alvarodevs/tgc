@@ -54,6 +54,7 @@ export const postProduct = async (body: object): Promise<any> => {
 
 export const putProduct = async ({id, body}: {id: number, body: object}): Promise<any> => {
   const backURL: string = import.meta.env.VITE_API_URL
+  console.log('API ID', id)
   try {
     const resp = await fetch(`${backURL}/${id}`, {
       method: 'PUT',
@@ -64,6 +65,7 @@ export const putProduct = async ({id, body}: {id: number, body: object}): Promis
       body: JSON.stringify(body)
     });
     const data = await resp.json();
+    console.log('DATA', data)
     return data;
   } catch (error) {
     return error;

@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAppDispatch } from "../../app/hooks"
-import {
-  // getProduct,
-  // selectProduct,
-  // selectStatus,
-  addProduct,
-  updateProduct,
-} from "../../features/productsSlice"
+import { addProduct, updateProduct } from "../../features/productsSlice"
 import {
   Container,
   HomeContainer,
@@ -39,10 +33,9 @@ const initialStateForm = {
 
 const Form = (product: IProduct ): JSX.Element => {
   const dispatch = useAppDispatch()
-  // const product = useAppSelector(selectProduct)
   const { id }: any = useParams()
   const [formData, setFormData] = useState<IForm>(initialStateForm)
-  console.log("FORM", formData)
+  // console.log("PRODUCT PROPS", product)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -59,7 +52,7 @@ const Form = (product: IProduct ): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     void (id
-      ? dispatch(updateProduct({ id: parseInt(id), body: formData }))
+      ? dispatch(updateProduct({ id: product.id as number, body: formData }))
       : dispatch(addProduct(formData)))
   }
 
