@@ -22,18 +22,19 @@ interface IForm {
 
 const ratingOptions = ["1", "2", "3", "4", "5"]
 
+const initialStateForm = {
+  title: "",
+  rating: 0,
+  thumbnail: "",
+  description: "",
+  price: 0,
+}
+
 const Form = (): JSX.Element => {
-  const [formData, setFormData] = useState<IForm>({
-    title: "",
-    rating: 0,
-    thumbnail: "",
-    description: "",
-    price: 0,
-  })
+  const [formData, setFormData] = useState<IForm>(initialStateForm)
   const dispatch = useAppDispatch()
   const product = useAppSelector(selectProduct)
   const { id }: any = useParams()
-  console.log(product)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -49,18 +50,16 @@ const Form = (): JSX.Element => {
     event.preventDefault()
   }
 
-  // eslint-disable-next-line no-void
   useEffect(() => {
     void dispatch(getProduct(parseInt(id)))
     setFormData({
-      ...formData,
       title: product.title,
       rating: Math.ceil(product.rating),
       thumbnail: product.thumbnail,
       description: product.description,
       price: product.price,
     })
-  }, [id])
+  }, [product])
 
   return (
     <>
