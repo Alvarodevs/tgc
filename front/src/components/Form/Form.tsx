@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch } from "../../app/hooks"
 import {
-  getProduct,
-  selectProduct,
+  // getProduct,
+  // selectProduct,
   // selectStatus,
   addProduct,
   updateProduct,
@@ -17,6 +17,7 @@ import {
 } from "./FormStyle"
 import { Link, useParams } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
+import { type IProduct } from '../../interfaces'
 
 interface IForm {
   title: string
@@ -36,21 +37,23 @@ const initialStateForm = {
   price: 0,
 }
 
-const Form = (): JSX.Element => {
+const Form = (product: IProduct ): JSX.Element => {
   const dispatch = useAppDispatch()
-  const product = useAppSelector(selectProduct)
+  // const product = useAppSelector(selectProduct)
   const { id }: any = useParams()
   const [formData, setFormData] = useState<IForm>(initialStateForm)
-  console.log('FORM', formData)
+  console.log("FORM", formData)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ): void => {
     const { name, value } = event.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
+    if (product) {
+      setFormData({
+        ...formData,
+        [name]: value,
+      })
+    }
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -61,19 +64,18 @@ const Form = (): JSX.Element => {
   }
 
   useEffect(() => {
-    void dispatch(getProduct(parseInt(id)))
     setFormData({
-      title: product.title,
-      rating: product.rating,
-      thumbnail: product.thumbnail,
-      description: product.description,
-      price: product.price,
+      title: product ? product.title : "",
+      rating: product ? product.rating : 0,
+      thumbnail: product ? product.thumbnail : "",
+      description: product ? product.description : "",
+      price: product ? product.price : 0,
     })
-  }, [!product])
+  }, [product])
 
   return (
     <>
-      {product.title ? (
+      {product ? (
         <>
           <HomeContainer>
             <Link to={"/"}>

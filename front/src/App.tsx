@@ -13,6 +13,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='/product/:id' element={<ProductSite/>}></Route>
+        <Route path='/add_product' element={<ProductSite/>}></Route>
       </Routes>
     </BrowserRouter>
   )

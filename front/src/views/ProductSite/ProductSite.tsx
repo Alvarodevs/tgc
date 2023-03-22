@@ -1,10 +1,21 @@
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getProduct, selectProduct } from '../../features/productsSlice'
 import Form from '../../components/Form'
 
-
-const Home = (): JSX.Element => {
+const ProductSite = (): JSX.Element => {
+  const dispatch = useAppDispatch()
+  const product = useAppSelector(selectProduct)
+  const { id }: any = useParams()
+  
+  useEffect(() => {
+    void dispatch(getProduct(parseInt(id)))
+  }, [dispatch])
+  
   return (
-    <Form></Form>
+    <Form {...product}></Form>
   )
 }
 
-export default Home
+export default ProductSite
