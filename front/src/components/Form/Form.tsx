@@ -14,6 +14,7 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
 import { MdDeleteOutline } from "react-icons/md"
 import { type IProduct } from '../../interfaces'
+import image_error from '../../assets/image_error.png'
 
 interface IForm {
   title: string
@@ -94,7 +95,7 @@ const Form = (product: IProduct ): JSX.Element => {
           </HomeContainer>
           
           <Container>
-            <Image src={formData.thumbnail} alt={formData.title} />
+            <Image src={formData.thumbnail || image_error} alt={formData.title} />
 
             <FormContainer onSubmit={handleSubmit}>
               <div>
