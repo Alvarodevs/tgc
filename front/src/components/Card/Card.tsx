@@ -28,14 +28,14 @@ const Card = ({
   images,
 }: IProduct): JSX.Element => {
 
-  const rate = rating?.toFixed(1)
+  // const rate = rating ? rating.toFixed(1) : null
   return (
     <Container>
       <Link to={`/product/${id}`}>
         <CardItem className='CARDITEM'>
           <Title>{title}</Title>
           <AiFillStar className="rateIcon"></AiFillStar>
-          <Rate>{rate}</Rate>
+          <Rate>{rating}</Rate>
           <ImgContainer>
             <Image src={thumbnail} />
           </ImgContainer>

@@ -51,15 +51,17 @@ export const Image = styled.img`
 `
 
 export const Rate = styled.p`
+width: 3rem;
   position: absolute;
   top: 1rem;
-  right: 1.3rem;
+  right: 1rem;
   color: var(--grey);
   font-family: var(--main-font);
   font-size: 1rem;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
+  text-align: center;
 `
 
 export const Brand = styled.h6`

@@ -9,7 +9,7 @@ import {
   Label,
   Input,
 } from "./FormStyle"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
 import { MdDeleteOutline } from "react-icons/md"
 import { type IProduct } from '../../interfaces'
@@ -37,6 +37,7 @@ const initialStateForm = {
 const Form = (product: IProduct ): JSX.Element => {
   const dispatch = useAppDispatch()
   const { id }: any = useParams()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<IForm>(initialStateForm)
   console.log("formData", formData)
 
@@ -57,6 +58,7 @@ const Form = (product: IProduct ): JSX.Element => {
     void (id
       ? dispatch(updateProduct({ id: product.id as number, body: formData }))
       : dispatch(addProduct(formData)))
+    navigate('/')  
   }
 
   const handleDelete = (): void => {

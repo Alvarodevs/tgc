@@ -36,15 +36,18 @@ export const fetchSingleProduct = async (id: number): Promise<any> => {
 
 export const postProduct = async (body: object): Promise<any> => {
   const backURL: string = import.meta.env.VITE_API_URL
-  console.log('body', body)
+  const stringify = JSON.stringify(body)
+  console.log('body', stringify)
   try {
     const resp = await fetch(backURL, {
       method: 'POST',
       mode: "cors",
       headers: {
+        'Content-type': 'application/json',
         'Access-Control-Allow-Origin': 'http://localhost:5173/'
       },
-      body: JSON.stringify(body)
+      // eslint-disable-next-line object-shorthand
+      body: stringify
     });
     const data = await resp.json();
     return data;
@@ -60,6 +63,7 @@ export const putProduct = async ({id, body}: {id: number, body: object}): Promis
       method: 'PUT',
       mode: "cors",
       headers: {
+        'Content-type': 'application/json',
         'Access-Control-Allow-Origin': 'http://localhost:5173/'
       },
       body: JSON.stringify(body)

@@ -115,6 +115,7 @@ export const productsSlice = createSlice({
         state.status = "loading"
       })
       .addCase(addProduct.fulfilled, (state, action) => {
+        console.log('post action', action.payload)
         state.items = [...state.items, action.payload]
         state.status = "ok"
       })
