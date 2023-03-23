@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "../app/store"
 import type { IProduct, IActionThunk } from "../interfaces"
-import { fetchProducts, fetchSingleProduct, postProduct, putProduct, deleteProduct } from "../services/api"
+import {
+  fetchProducts,
+  fetchSingleProduct,
+  postProduct,
+  putProduct,
+  deleteProduct,
+} from "../services/api"
 
 const initialSingle = {
   id: 0,
@@ -14,7 +20,7 @@ const initialSingle = {
   brand: "",
   category: "",
   thumbnail: "",
-  images: []
+  images: [],
 }
 
 interface ProductsState {
@@ -45,22 +51,17 @@ export const addProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "put/product",
-  async ({id, body}: {id: number, body: object}) => {
-    return await putProduct({id, body})
+  async ({ id, body }: { id: number; body: object }) => {
+    return await putProduct({ id, body })
   }
 )
 
-export const removeProduct = createAsyncThunk("delete/product",
-	async (id: number) => {
-		return await deleteProduct(id);
-	}
-);
-
-// // export const editBooking = createAsyncThunk("booking/editBooking",
-// // 	async (id) => {
-// // 		return await id;
-// // 	}
-// // );
+export const removeProduct = createAsyncThunk(
+  "delete/product",
+  async (id: number) => {
+    return await deleteProduct(id)
+  }
+)
 
 const initialState: ProductsState = {
   items: [],
@@ -71,13 +72,7 @@ const initialState: ProductsState = {
 export const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {
-    // clearSingleData: (state: ProductsState): ProductsState => {
-    //   return {
-    //     state.single = initialSingle 
-    //   }
-    // }
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder
@@ -114,8 +109,7 @@ export const productsSlice = createSlice({
       .addCase(addProduct.pending, (state: ProductsState) => {
         state.status = "loading"
       })
-      .addCase(addProduct.fulfilled, (state, action) => {
-        console.log('post action', action.payload)
+      .addCase(addProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
         state.items = [...state.items, action.payload]
         state.status = "ok"
       })
@@ -123,12 +117,14 @@ export const productsSlice = createSlice({
         state.status = "ko"
       })
 
-      // PUT product  
+      // PUT product
       .addCase(updateProduct.pending, (state: ProductsState) => {
         state.status = "loading"
       })
-      .addCase(updateProduct.fulfilled, (state, action) => {
-        const index = state.items.findIndex(item => item.id === action.payload.id);
+      .addCase(updateProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
+        const index = state.items.findIndex(
+          (item) => item.id === action.payload.id
+        )
         state.items[index] = action.payload
         state.status = "ok"
       })
@@ -137,27 +133,18 @@ export const productsSlice = createSlice({
       })
 
       // DELETE BOOKING
-      .addCase(removeProduct.fulfilled, (state, action) => {
-        console.log(action.payload)
-      	state.items = state.items.filter(
-      		(product) => product.id !== action.payload.id
-      	);
-      	state.status = 'ok';
+      .addCase(removeProduct.pending, (state: ProductsState) => {
+        state.status = "loading"
+      })
+      .addCase(removeProduct.fulfilled, (state: ProductsState, action: IActionThunk) => {
+        state.items = state.items.filter(product => product.id !== action.payload.id);
+        state.status = 'ok';
+      })
+      .addCase(removeProduct.rejected, (state: ProductsState) => {
+        state.status = "ko"
       })
   },
 })
-
-
-//       // .addCase(editBooking.fulfilled, (state, action) => {
-//       // 	state.status = 'ok';
-//       // 	state.items = state.items.map((booking) => {
-//       // 		return booking.id === action.payload.id ? action.payload : booking;
-//       // 	});
-//       // })
-//    },
-// });
-
-// export const { clearSingleData } = productsSlice.actions;
 
 export const selectProducts = (state: RootState): IProduct[] =>
   state.products.items

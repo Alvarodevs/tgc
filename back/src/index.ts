@@ -12,11 +12,6 @@ app.use(cors())
 
 const PORT = process.env.PORT ?? 3001
 
-app.get('/ping', (_req, res) => {
-  console.log('pinged')
-  res.send('pong')
-})
-
 app.use('/api/products', productsRouter)
 
 app.listen(PORT, () => {

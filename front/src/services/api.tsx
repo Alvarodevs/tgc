@@ -37,7 +37,6 @@ export const fetchSingleProduct = async (id: number): Promise<any> => {
 export const postProduct = async (body: object): Promise<any> => {
   const backURL: string = import.meta.env.VITE_API_URL
   const stringify = JSON.stringify(body)
-  console.log('body', stringify)
   try {
     const resp = await fetch(backURL, {
       method: 'POST',
@@ -86,7 +85,6 @@ export const deleteProduct = async (id: number): Promise<any> => {
       }
     });
     const data = await resp.json();
-    console.log('data', data)
     return data;
   } catch (error) {
     return error;

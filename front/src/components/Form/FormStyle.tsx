@@ -15,7 +15,6 @@ export const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
-  width: 100%;
   justify-content: center;
   top: 6rem;
   right: 5%;
@@ -51,7 +50,7 @@ export const Delete = styled.p`
 `;
 export const Image = styled.img`
   width: 50%;
-  border: 1px solid red;
+  border: 1px solid var(--lightBlue);
   border-radius: 10px;
   @media only screen and (max-width: 1250px) {
     width: 80%;
@@ -123,3 +122,18 @@ export const Input = styled.input`
     }
   }
 `
+
+export const SubmitBtn = styled.button`
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--lightBlue);
+  border-radius: 5px;
+  background-color: var(--white);
+  color: var(--black);
+  font-family: var(--main-font);
+  font-size: var(--font-size-l);
+  transition: 0.3s ease-in-out;
+  :hover{
+    border-color: var(--blue);
+    background-color: #46f563;
+  }
+`;

@@ -6,7 +6,6 @@ import { Request, Response } from 'express'
 
 const data = fs.readFileSync('./src/db/products.json')
 const parsedData: IProduct[] = JSON.parse(data as unknown as string)
-// console.log(parsedData)
 
 export const getProducts = (
   _req: Request,
@@ -32,8 +31,7 @@ export const getProductById = (
   }
 }
 
-export const postProduct = (req: Request, res: Response): any => {
-  console.log(req.body)
+export const postProduct = async (req: Request, res: Response): Promise<any> => {
   const newId = parsedData[parsedData.length - 1].id + 1
   const newProduct = {
     id: newId,
@@ -51,7 +49,7 @@ export const postProduct = (req: Request, res: Response): any => {
         }
       }
     )
-    return res.status(201).json(newProduct)
+    return res.status(201).json({ product: newProduct })
   } catch (error) {
     return res.status(500).json(`Product not added: ${error}`)
   }
@@ -83,7 +81,7 @@ export const deleteProduct = (req: Request, res: Response): Response => {
         throw err
       }
     })
-    return res.status(200).json({id: req.params.id, msg: 'Product deleted'})
+    return res.status(200).json({ id: req.params.id, msg: 'Product deleted' })
   } catch (error) {
     return res.status(500).json(`Product not deleted: ${error}`)
   }

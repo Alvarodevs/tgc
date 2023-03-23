@@ -8,6 +8,7 @@ import {
   FormContainer,
   Label,
   Input,
+  SubmitBtn
 } from "./FormStyle"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
@@ -39,7 +40,6 @@ const Form = (product: IProduct ): JSX.Element => {
   const { id }: any = useParams()
   const navigate = useNavigate()
   const [formData, setFormData] = useState<IForm>(initialStateForm)
-  console.log("formData", formData)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -63,6 +63,7 @@ const Form = (product: IProduct ): JSX.Element => {
 
   const handleDelete = (): void => {
     void dispatch(removeProduct(id))
+    navigate('/')
   }
 
   useEffect(() => {
@@ -165,7 +166,7 @@ const Form = (product: IProduct ): JSX.Element => {
                   step="0.01"
                 />
               </div>
-              <button type="submit">Submit</button>
+              <SubmitBtn type="submit">Submit</SubmitBtn>
             </FormContainer>
           </Container>
         </>
