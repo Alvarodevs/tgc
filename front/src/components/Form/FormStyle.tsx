@@ -33,9 +33,26 @@ export const HomeContainer = styled.div`
       font-size: var(--font-size-l);
     }
   }
+  .deleteIcon{
+    font-size: 1.5rem;
+    margin: 1rem 0.2rem;
+    color: red;
+    transition: 0.3s ease-in-out;
+    :hover {
+      font-size: 1.7rem;
+      margin: 1rem 0.1rem;
+      cursor: pointer;
+    }
+  }
 `
+
+export const Delete = styled.p`
+ 
+`;
 export const Image = styled.img`
   width: 50%;
+  border: 1px solid red;
+  border-radius: 10px;
   @media only screen and (max-width: 1250px) {
     width: 80%;
     margin: auto;

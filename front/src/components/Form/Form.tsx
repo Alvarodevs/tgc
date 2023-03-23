@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAppDispatch } from "../../app/hooks"
-import { addProduct, updateProduct } from "../../features/productsSlice"
+import { addProduct, updateProduct, removeProduct } from "../../features/productsSlice"
 import {
   Container,
   HomeContainer,
@@ -11,10 +11,12 @@ import {
 } from "./FormStyle"
 import { Link, useParams } from "react-router-dom"
 import { BiHomeAlt2 } from "react-icons/bi"
+import { MdDeleteOutline } from "react-icons/md"
 import { type IProduct } from '../../interfaces'
 
 interface IForm {
   title: string
+  brand: string
   rating: number
   thumbnail: string
   description: string
@@ -25,6 +27,7 @@ const ratingOptions = ["1", "2", "3", "4", "5"]
 
 const initialStateForm = {
   title: "",
+  brand: "",
   rating: 0,
   thumbnail: "",
   description: "",
@@ -35,7 +38,7 @@ const Form = (product: IProduct ): JSX.Element => {
   const dispatch = useAppDispatch()
   const { id }: any = useParams()
   const [formData, setFormData] = useState<IForm>(initialStateForm)
-  // console.log("PRODUCT PROPS", product)
+  console.log("formData", formData)
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,14 +59,23 @@ const Form = (product: IProduct ): JSX.Element => {
       : dispatch(addProduct(formData)))
   }
 
+  const handleDelete = (): void => {
+    void dispatch(removeProduct(id))
+  }
+
   useEffect(() => {
+    if (!product) {
+      setFormData(initialStateForm)
+    }
     setFormData({
       title: product ? product.title : "",
+      brand: product ? product.brand : "",
       rating: product ? product.rating : 0,
       thumbnail: product ? product.thumbnail : "",
       description: product ? product.description : "",
       price: product ? product.price : 0,
     })
+    return () => {setFormData(initialStateForm)}
   }, [product])
 
   return (
@@ -75,7 +87,9 @@ const Form = (product: IProduct ): JSX.Element => {
               <BiHomeAlt2 />
               Back
             </Link>
+            {id ? <MdDeleteOutline className='deleteIcon' onClick={handleDelete}/> : null}
           </HomeContainer>
+          
           <Container>
             <Image src={formData.thumbnail} alt={formData.title} />
 
@@ -87,6 +101,16 @@ const Form = (product: IProduct ): JSX.Element => {
                   name="title"
                   id="title"
                   value={formData.title}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="brand">Brand</Label>
+                <Input
+                  type="text"
+                  name="brand"
+                  id="brand"
+                  value={formData.brand}
                   onChange={handleInputChange}
                 />
               </div>

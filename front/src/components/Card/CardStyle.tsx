@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
 export const Container = styled.article`
-  // width: fit-content;
   a {
     display: flex;
     justify-content: center;
@@ -11,7 +10,7 @@ export const Container = styled.article`
 `
 
 export const CardItem = styled.div`
-  width: 15rem;
+  width: 19rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -54,7 +53,7 @@ export const Image = styled.img`
 export const Rate = styled.p`
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 1.3rem;
   color: var(--grey);
   font-family: var(--main-font);
   font-size: 1rem;
@@ -80,7 +79,7 @@ export const Brand = styled.h6`
 export const Description = styled.p`
   font-family: var(--main-font);
   padding: 0 0.8rem;
-  margin: 1rem auto;
+  margin: 1rem auto 0 auto;
   color: var(--grey);
   height: 4rem;
   display: flex;
@@ -104,22 +103,22 @@ export const Description = styled.p`
 export const Price = styled.p`
   display: flex;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
   font-family: var(--secondary-font);
   padding-top: 0.3rem;
 `
-export const Button = styled.button`
-  width: fit-content;
-  background-color: var(--grey);
-  color: var(--white);
-  font-size: 1rem;
-  margin: 1rem auto;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--black);
-  border-radius: 5px;
-  transition: 0.3s ease-in-out;
-  :hover {
-    background-color: var(--black);
-  }
-`
+// export const Button = styled.button`
+//   width: fit-content;
+//   background-color: var(--grey);
+//   color: var(--white);
+//   font-size: 1rem;
+//   margin: 1rem auto;
+//   padding: 0.25rem 0.5rem;
+//   border: 1px solid var(--black);
+//   border-radius: 5px;
+//   transition: 0.3s ease-in-out;
+//   :hover {
+//     background-color: var(--black);
+//   }
+// `

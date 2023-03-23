@@ -36,6 +36,7 @@ export const fetchSingleProduct = async (id: number): Promise<any> => {
 
 export const postProduct = async (body: object): Promise<any> => {
   const backURL: string = import.meta.env.VITE_API_URL
+  console.log('body', body)
   try {
     const resp = await fetch(backURL, {
       method: 'POST',
@@ -54,7 +55,6 @@ export const postProduct = async (body: object): Promise<any> => {
 
 export const putProduct = async ({id, body}: {id: number, body: object}): Promise<any> => {
   const backURL: string = import.meta.env.VITE_API_URL
-  console.log('API ID', id)
   try {
     const resp = await fetch(`${backURL}/${id}`, {
       method: 'PUT',
@@ -65,10 +65,26 @@ export const putProduct = async ({id, body}: {id: number, body: object}): Promis
       body: JSON.stringify(body)
     });
     const data = await resp.json();
-    console.log('DATA', data)
     return data;
   } catch (error) {
     return error;
   }
 }
 
+export const deleteProduct = async (id: number): Promise<any> => {
+  const backURL: string = import.meta.env.VITE_API_URL
+  try {
+    const resp = await fetch(`${backURL}/${id}`, {
+      method: 'DELETE',
+      mode: "cors",
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:5173/'
+      }
+    });
+    const data = await resp.json();
+    console.log('data', data)
+    return data;
+  } catch (error) {
+    return error;
+  }
+}

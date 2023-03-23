@@ -2,7 +2,6 @@
 import {
   CardItem,
   Container,
-  Button,
   Title,
   ImgContainer,
   Image,
@@ -28,13 +27,15 @@ const Card = ({
   thumbnail,
   images,
 }: IProduct): JSX.Element => {
+
+  const rate = rating?.toFixed(1)
   return (
     <Container>
       <Link to={`/product/${id}`}>
         <CardItem className='CARDITEM'>
           <Title>{title}</Title>
           <AiFillStar className="rateIcon"></AiFillStar>
-          <Rate>{rating}</Rate>
+          <Rate>{rate}</Rate>
           <ImgContainer>
             <Image src={thumbnail} />
           </ImgContainer>
@@ -43,8 +44,6 @@ const Card = ({
           </Brand>
           <Description>{description}</Description>
           <Price>€{price}</Price>
-
-          <Button>Edit</Button>
         </CardItem>
       </Link>
     </Container>
